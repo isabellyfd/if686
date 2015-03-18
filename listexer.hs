@@ -17,3 +17,14 @@ digits as | (((head as) == '1') || ((head as) == '2') || ((head as) == '3') || (
 sumPairs :: [Int] -> [Int] -> [Int]
 sumPairs [] [] = []
 sumPairs as bs = ((head as) + (head bs)) : sumPairs (tail as) (tail bs)
+
+getPivo:: [Int] -> Int
+getPivo [] = []
+getPivo as = head as
+
+getTamList :: [Int] -> Int
+getTamList [] = 0
+getTamList as = 1 + getTamList (tail as)
+
+part :: [Int]-> Int -> Int -> Int
+part as 
