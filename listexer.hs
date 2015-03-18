@@ -18,13 +18,25 @@ sumPairs :: [Int] -> [Int] -> [Int]
 sumPairs [] [] = []
 sumPairs as bs = ((head as) + (head bs)) : sumPairs (tail as) (tail bs)
 
-getPivo:: [Int] -> Int
-getPivo [] = []
-getPivo as = head as
+--getPivo:: [Int] -> Int
+--getPivo [] = []
+--getPivo as = head as
 
-getTamList :: [Int] -> Int
-getTamList [] = 0
-getTamList as = 1 + getTamList (tail as)
+--getTamList :: [Int] -> Int
+--getTamList [] = 0
+--getTamList as = 1 + getTamList (tail as)
 
-part :: [Int]-> Int -> Int -> Int
-part as 
+--part :: [Int]-> Int -> Int -> Int
+--part as 
+
+fib :: Int -> Int
+fib 0 = 1
+fib 1 = 1
+fib x = fib(x-2) + fib (x-1)
+
+
+
+parFib:: Int-> Int -> [Int]
+parFib 0 x = []
+parFib n x |  mod (fib x) 2 == 0  =  x : parFib (n-1) (x+1)
+           | otherwise =  parFib n (x+1)
