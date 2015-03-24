@@ -41,5 +41,5 @@ getMinor x (a:as) | (x > a) = a: (getMinor x as)
 	
 qsort :: [Int] -> [Int]
 qsort [] = []
-qsort (a:as) = qsort (getMinor a as)(++) (a:[]) (++) qsort (getMajor a as)
+qsort (a:as) = qsort (getMinor a as) ++ (a:[]) ++ qsort (getMajor a as)
 	
