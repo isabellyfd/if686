@@ -143,5 +143,25 @@ emprestado ((str1,str2):str) l | str2 == l = True
 							| otherwise = emprestado str l
 
 qtdEmprestimos:: BancoDados -> Pessoa -> Int
-qtdEmprestimos [] p = []
-qtdEmprestimos ((str1,str2):str) p | p == str1 = 1 + qtdEmprestimos 
+qtdEmprestimos [] p = 0
+qtdEmprestimos ((str1,str2):str) p | p == str1 = 1 + qtdEmprestimos str p
+	|otherwise = qtdEmprestimos str p
+
+emprestar :: BancoDados -> Pessoa -> Livro -> BancoDados
+emprestar ls p l = (p,l):ls
+
+devolver :: BancoDados -> Pessoa -> Livro -> BancoDados
+devolver [] p l = []
+devolver ((str1,str2):str) p l | str1 /= p && str2 /= l = (str1,str2) : devolver str p l
+	| otherwise = devolver str p l
+
+isEquals :: Int -> Int -> Bool
+isEquals a b | a == b = True
+	|otherwise = False 
+
+verify :: (String, String) -> String -> Bool
+verify (x, y) str | x == str =  True
+	|otherwise = False
+
+livrosCL :: BancoDados -> Pessoa -> [Livro]
+livrosCL bd p = [y |(x,y)<-bd, verify (x,y) p]
