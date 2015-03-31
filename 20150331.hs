@@ -1,4 +1,7 @@
 
+import Data.Char
+
+
 -- Trabalho 4
 -- Questao 1 
 -- Em Haskell a função de declaração é imutável, diferente de Java o qual é possível definir diferentes funções com o mesmo nome e parâmetros diferentes
@@ -120,12 +123,47 @@ qsort (a:as) = [x | x <- as, x<a] ++ [a] ++ [x | x<- as, x>=a]
 
 -- exercícios de sala de aula
 --1
-{-}
-move:: [(Int, Int, Char)]-> Int -> String -> Int
-move [] ei (s:ss) = 0
-move list@(a, b, c):as ei (s:ss) | s /= c = move as (s:ss)
-	| s == c && a == ei =     
 
-afd :: String -> [Int] -> [(Int, Int, Char)] -> Int -> [Int] 
--}
+move:: [(Int, Int, String)]-> Int -> String -> [Int]
+move [] ei _ = []
+move ((a, b, (c:[])):as) ei (s:ss) | s /= c = move as ei (s:ss)
+	| s == c = 
+		if a == ei then
+			b : move as b ss
+		else
+			move as ei ss 
 
+
+getFinalState :: [Int] -> Int
+getFinalState (a:as) | as == [] = a
+	|otherwise = getFinalState as	
+
+getBoolean :: [Int] -> Int -> Bool
+getBoolean [] b = False
+getBoolean (a:as) b | a == b = True
+	|otherwise = getBoolean as b  
+
+afd :: String -> [Int] -> [(Int, Int, String)] -> Int -> [Int] -> Bool
+afd str stateList stateMoviment ei acceptenceList =  getBoolean acceptenceList (getFinalState (move stateMoviment ei str))
+
+
+-- 2 
+
+summ :: [String] ->  Int
+summ [] = 0
+summ ((a:[]):as)  = (digitToInt a) + summ as
+
+transforming :: Int -> [Char]
+transforming x | x < 10 = [intToDigit x]
+	|otherwise =  intToDigit((mod x 10)) : transforming (div x 10)
+
+reversing :: [Char]->[Char]
+reversing [] = []
+reversing (a:as) = reversing as ++ [a] 
+
+turnHex :: [Char] -> Int -> [Char]
+turnHex [] index = []
+turnHex (a:as) index = intToDigit ((digitToInt a) * (16**index)) : turnHex as (index-1) 
+
+somatorioHexadecimal :: [String] -> String
+somatorioHexadecimal  str = turnHex (reversing(transforming(summ str))) (length(reversing(transforming(summ str))) - 1)
