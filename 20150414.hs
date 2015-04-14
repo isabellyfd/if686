@@ -39,7 +39,7 @@ data Tree t = Nul | Node t (Tree t) (Tree t)
 aux :: Tree t -> (t -> Bool) -> [Tree t]
 aux Nul f = [Nul]
 aux (Node x a b) f
-   |f x = [Node x] ++ (aux a f) ++ (aux b f)
+   |f x = [Node x a b] ++ (aux a f) ++ (aux b f)
    |otherwise = (aux a f) ++ (aux b f)
    
 filterTree :: (t -> Bool) -> Tree t -> [Tree t]
@@ -47,3 +47,25 @@ filterTree f Nul = []
 filterTree f (Node x a b)
    |f x = (aux (Node x a b) f) 
    |otherwise = filterTree f a ++ filterTree f b
+
+
+
+{-  exercício
+-}
+
+
+{-filterList:: (t->Bool)-> Int -> [[Int]] -> [[Int]]
+filterList p i lis = (filter (p i lis) lis
+   where p i lis | (foldr (++) 0 lis) < i =  True
+   | otherwise = False
+-}
+
+{- resolção do prof, pq tá foda a vida  -}
+filterFuckingList :: [[Int]] -> Int -> [[Int]]
+filterFuckingList l n = filter (\x -> (foldr (+) 0 x) >= n) l
+{-im so fucking stooooopid -}
+
+mapFilter :: (a -> Bool) -> [[a]] -> [[a]]
+mapFilter f lis = [b | b <-lis, f b]
+
+--mapFold :: (a1 -> a -> a) -> [a] -> [[a1]->a]
