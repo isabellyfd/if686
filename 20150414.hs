@@ -9,7 +9,6 @@ compose f (g:gs) = [fog]  ++ (compose f gs)
 
 --questão 2
 
--Questão 2
 data Graph t = Graph [t] [(t, t, Int)]
    deriving (Eq, Show)
 
@@ -38,13 +37,13 @@ data Tree t = Nul | Node t (Tree t) (Tree t)
    deriving Show
 
 aux :: Tree t -> (t -> Bool) -> [Tree t]
-aux Nul f = Nul
+aux Nul f = [Nul]
 aux (Node x a b) f
-   |f x = [Node x (aux a f) (aux b f)]
-   |otherwise = [aux a f] ++ [aux b f]
+   |f x = [Node x] ++ (aux a f) ++ (aux b f)
+   |otherwise = (aux a f) ++ (aux b f)
    
 filterTree :: (t -> Bool) -> Tree t -> [Tree t]
 filterTree f Nul = []
 filterTree f (Node x a b)
-   |f x = [aux (Node x a b) f ]
+   |f x = (aux (Node x a b) f) 
    |otherwise = filterTree f a ++ filterTree f b
