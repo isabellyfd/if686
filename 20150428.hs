@@ -61,9 +61,50 @@ mapCL :: (a->b) -> [a] -> [b]
 mapCL f list = [ (f x) | x <-list]
 
 --member :: t -> [t] -> Bool
---member x ls = (foldr (||) [] (foldr (==x) [] ls))
-
-
+--member x ls = (foldr (||) [] (foldr (\m -> (x==m)) [] ls))
 
 --union :: [a] -> [a] -> [a]
---union y b =  (foldr (++) (foldr (++) [] y) b)
+--union y x =  (foldr (++) (map (+0)  y) x)
+
+
+getIntFromString :: String -> [Int]
+getIntFromString str = [  f x | x <- str] 
+ where f m = (ord m) - 96
+
+insert :: Ord t => Tree t -> t -> Tree t
+insert NilT x = (Node x NilT NilT)
+insert t@(Node a t1 t2) x | (x >=  a) = (Node a t1 (insert t2 x))
+ |otherwise =  (Node a (insert t1 x) t2)
+
+--createTree :: Ord t => [t] -> (Tree t ->  t -> Tree t) -> Tree t
+--createTree [] f =  NilT
+--createTree (a:as)  f =   (f NilT a)
+
+inter :: Eq a => [a] -> [a] ->[a]
+inter  x y = [ a| a <- x ,  (length (filter (==a) y) > 0 )]
+
+notCont :: Eq a =>  a -> [a] -> Bool
+notCont a [] = True 
+notCont a (x:xs) | (a == x) = False
+ |otherwise = notCont a xs
+
+diff :: Eq a=> [a] -> [a] -> [a]
+diff x y =   [ a | a <- x, (notCont a (inter x y))] ++[ a | a <- y, (notCont a (inter x y))]
+ 
+
+--mapFilter :: (t-> Bool) -> [[t]] -> [[t]]
+--mapFilter f  [] = []
+--mapFilter f (a:as)  = [x | x<- a , (f x)] ++ mapFilter f as
+
+f :: t -> u -> v 
+f x y = (t**u)
+--equivalente
+---(\u t -> (t**u))
+
+--mapFoldr
+
+parcialSum ::Int -> [Int] -> [Int]
+párcialSum  x  ls = (foldr (\m -> (m + x)) [] ls)
+
+
+
